@@ -70,6 +70,8 @@ public class GenomeNexusImpl implements Annotator {
     @Value("${genomenexus.enrichment_fields:annotation_summary}")
     private String enrichmentFields;
 
+    private String addColumns;
+
     private AnnotationControllerApi apiClient;
 
     private MutationRecord mRecord;
@@ -118,10 +120,11 @@ public class GenomeNexusImpl implements Annotator {
     }
 
     @Override
-    public AnnotatedRecord annotateRecord(MutationRecord record, boolean replace, String isoformOverridesSource, boolean reannotate)
+    public AnnotatedRecord annotateRecord(MutationRecord record, boolean replace, String isoformOverridesSource, boolean reannotate, String optionalGnProperties)
             throws GenomeNexusAnnotationFailureException
     {
         this.mRecord = record;
+        addColumns = optionalGnProperties;
 
         //check if record already is annotated
         if(!reannotate && !annotationNeeded(record)) {
@@ -212,7 +215,10 @@ public class GenomeNexusImpl implements Annotator {
                 resolveHotspot(),
                 resolveConsequence(),
                 resolveProteinPosition(mRecord),
-                mRecord.getAdditionalProperties());
+                this.getOptionalColumnProperties(addColumns),
+                mRecord.getAdditionalProperties()
+                );
+
         return annotatedRecord;
     }
 
@@ -241,6 +247,30 @@ public class GenomeNexusImpl implements Annotator {
         return genomeNexusBaseUrl + "annotation/genomic/" + genomicLocation + "?" +
                 isoformQueryParameter + "=" + isoformOverridesSource + "&fields=" + enrichmentFields;
     }
+
+    private Map<String, String> getOptionalColumnProperties(String addColumns) {
+        Map<String, String> optionalColumns = new IdentityHashMap<String, String>();;
+        String[] newColumns = addColumns.split(",");
+                
+        for (String newColumn : newColumns) {
+            String[] paths = newColumn.split(".");
+            optionalColumns.put(newColumn, paths[paths.length - 1]);
+        }
+        return optionalColumns;
+    }
+
+    
+
+    // private List<String> getOptionalColumnProperties() {
+    //     List<String> optionalColumns = new ArrayList<>();
+    //     String[] newColumns = addColumns.split(",");
+                
+    //     for (String newColumn : newColumns) {
+    //         String[] paths = newColumn.split(".");
+    //         optionalColumns.add(paths[paths.length - 1]);
+    //     }
+    //     return optionalColumns;
+    // }
 
     private String resolveHugoSymbol(boolean replace) {
         if (replace && canonicalTranscript != null && canonicalTranscript.getHugoGeneSymbol() != null) {

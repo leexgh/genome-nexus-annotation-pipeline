@@ -213,4 +213,14 @@ public class GeneXref {
         this.additionalProperties.put(name, value);
     }
 
+    @JsonAnyGetter
+    public Map<String, Object> getAddColumnProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAddColumnProperties(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
 }

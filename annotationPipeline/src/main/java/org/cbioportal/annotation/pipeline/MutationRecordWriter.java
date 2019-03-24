@@ -78,6 +78,12 @@ public class MutationRecordWriter implements ItemStreamWriter<String> {
                 for (String comment : commentLines) {
                     writer.write(comment + "\n");
                 }
+                // 这里不要改动，只用来写到文件里
+                // String[] newColumns = addColumns.split(",");
+                
+                // for (String addedHeader : newColumns) {
+                //     header.add(prefix + "." + addedHeader);
+                // }
                 writer.write(StringUtils.join(header, "\t"));
             }                
         });  

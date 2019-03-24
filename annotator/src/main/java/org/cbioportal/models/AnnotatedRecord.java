@@ -51,6 +51,10 @@ public class AnnotatedRecord extends MutationRecord{
     protected String hotspot;
     protected String consequence;
     protected String proteinPosition;
+    protected Map<String, String> optionalGnProperties;
+
+    // TODO add optional gn column fields
+    // protected Map optionalGnProperties...
 
     public AnnotatedRecord() {
         addAnnotatedFieldsToHeader();
@@ -105,7 +109,9 @@ public class AnnotatedRecord extends MutationRecord{
         String hotspot,
         String consequence,
         String proteinPosition,
+        Map<String, String> optionalGnProperties,
         Map<String, String> additionalProperties
+
     ) {
         super(hugoSymbol,
             entrezGeneId,
@@ -157,6 +163,8 @@ public class AnnotatedRecord extends MutationRecord{
         this.hotspot = hotspot;
         this.consequence = consequence;
         this.proteinPosition = proteinPosition;
+        this.optionalGnProperties = optionalGnProperties;
+        // TODO this.optionalGnProperties = ...;
         addAnnotatedFieldsToHeader();
     }
     
@@ -211,6 +219,13 @@ public class AnnotatedRecord extends MutationRecord{
         this.hotspot = additionalProperties.get("Hotspot") != null ? additionalProperties.get("Hotspot") : "";
         this.consequence = additionalProperties.get("Consequence") != null ? additionalProperties.get("Consequence") : "";
         this.proteinPosition = additionalProperties.get("Protein_position") != null ? additionalProperties.get("Protein_position") : "";
+        // for (String column : this.optionalGnProperties.keySet()) {
+        //     String columnContent = optionalGnProperties.get(column) != null ? optionalGnProperties.get(column) : "";
+        //     this.optionalGnProperties.put(column, columnContent);
+        // }
+
+        // this.optionalGnProperties = additionalProperties.get(key)!= null ? additionalProperties.get("Protein_position") : "";
+        // TODO may need something here
         this.additionalProperties = additionalProperties;
     }
 
@@ -296,5 +311,13 @@ public class AnnotatedRecord extends MutationRecord{
         header.add("Codons");
         header.add("Hotspot");
         header.add(header.indexOf("Variant_Classification"), "Consequence");
+        // Stirng[] optionalGnPropertiesName = this.optionalGnProperties.split(",");
+        // TODO add optional headers here
+        for (String column : this.optionalGnProperties.keySet()) {
+            header.add(column);
+        }
+        // for (String column : optionalGnPropertiesName) {
+        //     header.add(column);
+        // }
     }
 }

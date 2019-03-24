@@ -64,6 +64,8 @@ public class TestAnnotationPipeline {
             .addString("outputFilename", "target/test-outputs/output.txt")
             .addString("replace", "false")
             .addString("isoformOverride", "uniprot")
+            .addString("addColumns", "colocatedVariants.dbSnpId")
+            .addString("prefix", "genome_nexus")
             .toJobParameters());
         AssertFile.assertFileEquals(new FileSystemResource(classLoader.getResource("data/expectedmaf.txt").getPath()), new FileSystemResource("target/test-outputs/output.txt"));
     }

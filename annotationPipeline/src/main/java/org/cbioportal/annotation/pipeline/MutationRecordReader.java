@@ -71,6 +71,9 @@ public class MutationRecordReader  implements ItemStreamReader<AnnotatedRecord>{
     @Value("#{jobParameters[verbose]}")
     private boolean verbose;
 
+    @Value("#{jobParameters['addColumns']}")
+    private String addColumns;
+
     private int failedAnnotations;
     private int failedServerAnnotations;
     private int failedNullHgvspAnnotations;
@@ -123,6 +126,13 @@ public class MutationRecordReader  implements ItemStreamReader<AnnotatedRecord>{
         }
         reader.close();
 
+        // String[] newColumns = addColumns.split(",");
+        // List<String> optionalColumns = new ArrayList<>();    
+        // for (String newColumn : newColumns) {
+        //     String[] paths = newColumn.split(".");
+        //     optionalColumns.add(paths[paths.length - 1]);
+        // }
+
         int variantsToAnnotateCount = mutationRecords.size();
         int annotatedVariantsCount = 0;
         LOG.info(String.valueOf(variantsToAnnotateCount) + " records to annotate");
@@ -139,8 +149,10 @@ public class MutationRecordReader  implements ItemStreamReader<AnnotatedRecord>{
             // if no error then annotated record will get overwritten anyway with genome nexus response
             String serverErrorMessage = "";
             AnnotatedRecord annotatedRecord = new AnnotatedRecord(record);
+
+            
             try {
-                annotatedRecord = annotator.annotateRecord(record, replace, isoformOverride, true);
+                annotatedRecord = annotator.annotateRecord(record, replace, isoformOverride, true, addColumns);
             }
             catch (HttpServerErrorException ex) {
                 serverErrorMessage = "Failed to annotate variant due to internal server error";
@@ -273,5 +285,6 @@ public class MutationRecordReader  implements ItemStreamReader<AnnotatedRecord>{
         // Add comments to the config for the writer to access later
         ec.put("commentLines", comments);
     }
+
 
 }
