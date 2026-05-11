@@ -65,6 +65,7 @@ public class AnnotatedRecord extends MutationRecord {
     protected String gnomadAlleleFrequencySAS;
     protected String annotationStatus;
     protected String errorMessage;
+    protected String additionalTranscripts;
 
     public AnnotatedRecord() {
         addAnnotatedFieldsToHeader();
@@ -497,6 +498,14 @@ public class AnnotatedRecord extends MutationRecord {
         this.errorMessage = errorMessage;
     }
 
+    public String getADDITIONAL_TRANSCRIPTS() {
+        return this.additionalTranscripts != null ? this.additionalTranscripts : "";
+    }
+
+    public void setADDITIONAL_TRANSCRIPTS(String additionalTranscripts) {
+        this.additionalTranscripts = additionalTranscripts;
+    }
+
     private void addAnnotatedFieldsToHeader() {
         header.add("HGVSc");
         header.add("HGVSp");
@@ -506,6 +515,7 @@ public class AnnotatedRecord extends MutationRecord {
         header.add("Protein_position");
         header.add("Codons");
         header.add("Exon_Number");
+        header.add("ADDITIONAL_TRANSCRIPTS");
         header.add(header.indexOf("Variant_Classification"), "Consequence");
     }
 }
