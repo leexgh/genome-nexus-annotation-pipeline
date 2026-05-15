@@ -229,6 +229,7 @@ public class AnnotatedRecord extends MutationRecord {
         this.consequence = additionalProperties.get("Consequence") != null ? additionalProperties.get("Consequence") : "";
         this.proteinPosition = additionalProperties.get("Protein_position") != null ? additionalProperties.get("Protein_position") : "";
         this.exon = additionalProperties.get("exon") != null ? additionalProperties.get("exon") : "";
+        this.additionalTranscripts = additionalProperties.get("Additional_Transcripts") != null ? additionalProperties.get("Additional_Transcripts") : "";
         this.additionalProperties = additionalProperties;
     }
     
@@ -498,11 +499,11 @@ public class AnnotatedRecord extends MutationRecord {
         this.errorMessage = errorMessage;
     }
 
-    public String getADDITIONAL_TRANSCRIPTS() {
+    public String getAdditionalTranscripts() {
         return this.additionalTranscripts != null ? this.additionalTranscripts : "";
     }
 
-    public void setADDITIONAL_TRANSCRIPTS(String additionalTranscripts) {
+    public void setAdditionalTranscripts(String additionalTranscripts) {
         this.additionalTranscripts = additionalTranscripts;
     }
 
@@ -515,7 +516,7 @@ public class AnnotatedRecord extends MutationRecord {
         header.add("Protein_position");
         header.add("Codons");
         header.add("Exon_Number");
-        header.add("ADDITIONAL_TRANSCRIPTS");
+        header.add("Additional_Transcripts");
         header.add(header.indexOf("Variant_Classification"), "Consequence");
     }
 }
