@@ -136,6 +136,7 @@ docker run -e GENOMENEXUS_BASE=https://grch38.genomenexus.org -v ${PWD}:/wd geno
 |Protein_position|VEP||
 |Codons|VEP||
 |Exon_Number|VEP||
+|ADDITIONAL_TRANSCRIPTS||Contains a semicolon-separated list of alternate transcripts. Each entry is a comma-separated list of: Transcript ID, Hugo Gene Symbol, HGVSp Short, HGVSc, Variant Classification|
 |gnomAD_AF|myvariant.info|Need to add "my_variant_info" in "genomenexus.enrichment_fields"|
 |gnomAD_AFR_AF|myvariant.info|Need to add "my_variant_info" in "genomenexus.enrichment_fields"|
 |gnomAD_AMR_AF|myvariant.info|Need to add "my_variant_info" in "genomenexus.enrichment_fields"|
