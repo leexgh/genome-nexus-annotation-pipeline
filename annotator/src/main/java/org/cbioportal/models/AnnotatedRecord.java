@@ -65,6 +65,7 @@ public class AnnotatedRecord extends MutationRecord {
     protected String gnomadAlleleFrequencySAS;
     protected String annotationStatus;
     protected String errorMessage;
+    protected String additionalTranscripts;
 
     public AnnotatedRecord() {
         addAnnotatedFieldsToHeader();
@@ -228,6 +229,7 @@ public class AnnotatedRecord extends MutationRecord {
         this.consequence = additionalProperties.get("Consequence") != null ? additionalProperties.get("Consequence") : "";
         this.proteinPosition = additionalProperties.get("Protein_position") != null ? additionalProperties.get("Protein_position") : "";
         this.exon = additionalProperties.get("exon") != null ? additionalProperties.get("exon") : "";
+        this.additionalTranscripts = additionalProperties.get("Additional_Transcripts") != null ? additionalProperties.get("Additional_Transcripts") : "";
         this.additionalProperties = additionalProperties;
     }
     
@@ -497,6 +499,14 @@ public class AnnotatedRecord extends MutationRecord {
         this.errorMessage = errorMessage;
     }
 
+    public String getAdditionalTranscripts() {
+        return this.additionalTranscripts != null ? this.additionalTranscripts : "";
+    }
+
+    public void setAdditionalTranscripts(String additionalTranscripts) {
+        this.additionalTranscripts = additionalTranscripts;
+    }
+
     private void addAnnotatedFieldsToHeader() {
         header.add("HGVSc");
         header.add("HGVSp");
@@ -506,6 +516,7 @@ public class AnnotatedRecord extends MutationRecord {
         header.add("Protein_position");
         header.add("Codons");
         header.add("Exon_Number");
+        header.add("Additional_Transcripts");
         header.add(header.indexOf("Variant_Classification"), "Consequence");
     }
 }

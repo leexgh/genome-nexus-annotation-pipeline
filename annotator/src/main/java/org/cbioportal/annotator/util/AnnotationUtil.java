@@ -32,6 +32,8 @@
 
 package org.cbioportal.annotator.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -543,8 +545,34 @@ public class AnnotationUtil {
         return value != null ? String.valueOf(value) : "";
     }
 
+    public String resolveAdditionalTranscripts(VariantAnnotation gnResponse, TranscriptConsequenceSummary canonicalTranscript) {
+        if (gnResponse.getAnnotationSummary() == null) {
+            return "";
+        }
+        List<TranscriptConsequenceSummary> all = gnResponse.getAnnotationSummary().getTranscriptConsequenceSummaries();
+        if (all == null || all.isEmpty()) {
+            return "";
+        }
+        String canonicalId = canonicalTranscript != null ? canonicalTranscript.getTranscriptId() : null;
+        List<String> alternates = new ArrayList<>();
+        for (TranscriptConsequenceSummary t : all) {
+            if (canonicalId != null && canonicalId.equals(t.getTranscriptId())) {
+                continue;
+            }
+            String entry = String.join(",",
+                t.getTranscriptId() != null ? t.getTranscriptId() : "",
+                t.getHugoGeneSymbol() != null ? t.getHugoGeneSymbol() : "",
+                t.getHgvspShort() != null ? t.getHgvspShort() : "",
+                t.getHgvsc() != null ? t.getHgvsc() : "",
+                t.getVariantClassification() != null ? t.getVariantClassification() : ""
+            );
+            alternates.add(entry);
+        }
+        return String.join(";", alternates);
+    }
+
     private boolean hasIntergenicConsequenceSummaries(VariantAnnotation gnResponse) {
-        return gnResponse != null && 
+        return gnResponse != null &&
                 gnResponse.getAnnotationSummary() != null &&
                 gnResponse.getAnnotationSummary().getIntergenicConsequenceSummaries() != null &&
                 !gnResponse.getAnnotationSummary().getIntergenicConsequenceSummaries().isEmpty();
