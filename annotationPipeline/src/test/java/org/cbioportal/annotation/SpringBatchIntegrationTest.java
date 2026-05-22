@@ -380,8 +380,8 @@ public class SpringBatchIntegrationTest {
     public void check_if_output_contains_additional_transcripts_when_extendedMode_is_true() throws Exception {
         ReflectionTestUtils.setField(annotator, "enrichmentFields", "annotation_summary");
         String inputFile = IN + "minimal_example.txt";
-        String expectedFile = EXPECTED + "minimal_example.extended.txt";
-        String actualFile = ACTUAL + "minimal_example.extended.txt";
+        String expectedFile = EXPECTED + "minimal_examplew_with_additional_columns.txt";
+        String actualFile = ACTUAL + "minimal_example_with_additional_columns.txt";
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("filename", inputFile)
                 .addString("outputFilename", actualFile)
