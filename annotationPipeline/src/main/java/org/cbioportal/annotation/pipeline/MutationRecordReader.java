@@ -92,6 +92,9 @@ public class MutationRecordReader implements ItemStreamReader<AnnotatedRecord> {
     @Value("#{jobParameters[noteColumn] ?: 'true'}")
     private Boolean noteColumn;
 
+    @Value("#{T(java.lang.Boolean).valueOf(jobParameters['extendedMode'] ?: 'false')}")
+    private Boolean extendedMode;
+
     private AnnotationSummaryStatistics summaryStatistics;
     private List<AnnotatedRecord> allAnnotatedRecords = new ArrayList<>();
     private Set<String> header = new LinkedHashSet<>();
@@ -110,9 +113,9 @@ public class MutationRecordReader implements ItemStreamReader<AnnotatedRecord> {
         List<MutationRecord> mutationRecords = loadMutationRecordsFromMaf();
         if (!mutationRecords.isEmpty()) {
             if (postIntervalSize > 1) {
-                allAnnotatedRecords = annotator.getAnnotatedRecordsUsingPOST(summaryStatistics, mutationRecords, isoformOverride, replaceSymbolEntrez, postIntervalSize, true, stripMatchingBases, ignoreOriginalGenomicLocation, addOriginalGenomicLocation, noteColumn);
+                allAnnotatedRecords = annotator.getAnnotatedRecordsUsingPOST(summaryStatistics, mutationRecords, isoformOverride, replaceSymbolEntrez, postIntervalSize, true, stripMatchingBases, ignoreOriginalGenomicLocation, addOriginalGenomicLocation, noteColumn, extendedMode);
             } else {
-                allAnnotatedRecords = annotator.annotateRecordsUsingGET(summaryStatistics, mutationRecords, isoformOverride, replaceSymbolEntrez, true, stripMatchingBases, ignoreOriginalGenomicLocation, addOriginalGenomicLocation, noteColumn);
+                allAnnotatedRecords = annotator.annotateRecordsUsingGET(summaryStatistics, mutationRecords, isoformOverride, replaceSymbolEntrez, true, stripMatchingBases, ignoreOriginalGenomicLocation, addOriginalGenomicLocation, noteColumn, extendedMode);
             }
             // if output-format option is supplied, we only need to convert its data into header
             if (outputFormat != null && !outputFormat.equals("")) {

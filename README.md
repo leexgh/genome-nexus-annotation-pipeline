@@ -72,6 +72,8 @@ docker run -v ${PWD}:/wd genomenexus/gn-annotation-pipeline:latest java -jar ann
 | `-s` | `--strip-matching-bases` | Strip matching allele bases. Options: first, all, none. For example: AAC/AAT, strip-off first: AC/AT, strip-off all: C/T, strip-off none: AAC/AAT  |
 | `-a` | `--add-original-genomic-location` | Add original genomic location data columns into the output, name columns with prefix 'IGNORE_Genome_Nexus_Original_'. This would be useful if saving a reference of original input is needed and won't be changed in any condition|
 | `-d` | `--ignore-original-location` | Genome-nexus-annotation-pipeline reads original genomic location info as input by default, if not existing, reading from normal genomic location info columns. Adding `-d` ignores original genomic location info columns (columns with prefix 'IGNORE_Genome_Nexus_Original_') and only use whatever in normal genomic location info columns. This would be helpful if you'd like to stick with current genomic location info columns.|
+| `-n` | `--note-column` | Add 'Genomic Location Explanation' column for variants that have altered genomic location|
+| `-m` | `--mode` | Mode of annotation (currently only accepts `extended` to include `Additional_Transcripts` column)|
 
 ### Reference Genome
 The Genome Nexus Annotation Pipeline supports two versions of the human genome reference assembly: 
@@ -136,7 +138,7 @@ docker run -e GENOMENEXUS_BASE=https://grch38.genomenexus.org -v ${PWD}:/wd geno
 |Protein_position|VEP||
 |Codons|VEP||
 |Exon_Number|VEP||
-|Additional_Transcripts||Contains a semicolon-separated list of alternate transcripts. Each entry is a comma-separated list of: Transcript ID, Hugo Gene Symbol, HGVSp Short, HGVSc, Variant Classification|
+|Additional_Transcripts||Contains a semicolon-separated list of alternate transcripts. Each entry is a comma-separated list of: Transcript ID, Hugo Gene Symbol, HGVSp Short, HGVSc, Variant Classification. **Requires `-m extended` / `--mode extended` flag**|
 |gnomAD_AF|myvariant.info|Need to add "my_variant_info" in "genomenexus.enrichment_fields"|
 |gnomAD_AFR_AF|myvariant.info|Need to add "my_variant_info" in "genomenexus.enrichment_fields"|
 |gnomAD_AMR_AF|myvariant.info|Need to add "my_variant_info" in "genomenexus.enrichment_fields"|

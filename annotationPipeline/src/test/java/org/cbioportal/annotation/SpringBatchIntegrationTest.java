@@ -375,6 +375,23 @@ public class SpringBatchIntegrationTest {
         testWith(jobParameters, expectedFile, actualFile);
     }
 
+    @Test
+    @DisplayName("Check if output contains additional transcripts when extendedMode is true")
+    public void check_if_output_contains_additional_transcripts_when_extendedMode_is_true() throws Exception {
+        ReflectionTestUtils.setField(annotator, "enrichmentFields", "annotation_summary");
+        String inputFile = IN + "minimal_example.txt";
+        String expectedFile = EXPECTED + "minimal_example.extended.txt";
+        String actualFile = ACTUAL + "minimal_example.extended.txt";
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("filename", inputFile)
+                .addString("outputFilename", actualFile)
+                .addString("replaceSymbolEntrez", String.valueOf(true))
+                .addString("isoformOverride", "uniprot")
+                .addString("extendedMode", String.valueOf(true))
+                .toJobParameters();
+        testWith(jobParameters, expectedFile, actualFile);
+    }
+
     private void testWith(JobParameters jobParameters, String expectedPath, String actualPath) throws Exception {
         FileSystemResource expectedResult = new FileSystemResource(expectedPath);
         FileSystemResource actualResult = new FileSystemResource(actualPath);

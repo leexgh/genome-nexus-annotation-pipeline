@@ -31,7 +31,8 @@
 */
 package org.cbioportal.models;
 
-import java.util.*;
+import java.util.Map;
+
 import joptsimple.internal.Strings;
 
 
@@ -504,7 +505,11 @@ public class AnnotatedRecord extends MutationRecord {
     }
 
     public void setAdditionalTranscripts(String additionalTranscripts) {
+        if (!header.contains("Additional_Transcripts")) {
+            header.add("Additional_Transcripts");
+        }
         this.additionalTranscripts = additionalTranscripts;
+        addAdditionalProperty("Additional_Transcripts", additionalTranscripts);
     }
 
     private void addAnnotatedFieldsToHeader() {
@@ -516,7 +521,6 @@ public class AnnotatedRecord extends MutationRecord {
         header.add("Protein_position");
         header.add("Codons");
         header.add("Exon_Number");
-        header.add("Additional_Transcripts");
         header.add(header.indexOf("Variant_Classification"), "Consequence");
     }
 }
