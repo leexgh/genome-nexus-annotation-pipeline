@@ -68,7 +68,7 @@ public class AnnotationPipeline {
 
     private static void annotateJob(String[] args, String filename, String outputFilename, String outputFormat, String isoformOverride, String replaceSymbolEntrez,
                                     String errorReportLocation, String postIntervalSize, String stripMatchingBases,
-                                    Boolean ignoreOriginalGenomicLocation, Boolean addOriginalGenomicLocation, Boolean noteColumn) throws Exception {
+                                    Boolean ignoreOriginalGenomicLocation, Boolean addOriginalGenomicLocation, Boolean noteColumn, Boolean extendedMode) throws Exception {
         SpringApplication app = new SpringApplication(AnnotationPipeline.class);
         app.setWebApplicationType(WebApplicationType.NONE);
         app.setAllowBeanDefinitionOverriding(Boolean.TRUE);
@@ -87,6 +87,7 @@ public class AnnotationPipeline {
         addJobParameterIfValueIsNotNull(jobParametersBuilder, "ignoreOriginalGenomicLocation", String.valueOf(ignoreOriginalGenomicLocation));
         addJobParameterIfValueIsNotNull(jobParametersBuilder, "addOriginalGenomicLocation", String.valueOf(addOriginalGenomicLocation));
         addJobParameterIfValueIsNotNull(jobParametersBuilder, "noteColumn", String.valueOf(noteColumn));
+        addJobParameterIfValueIsNotNull(jobParametersBuilder, "extendedMode", String.valueOf(extendedMode));
         JobParameters jobParameters = jobParametersBuilder.toJobParameters();
         Instant annotationStart = Instant.now();
         JobExecution jobExecution = jobLauncher.run(annotationJob, jobParameters);
@@ -275,7 +276,7 @@ public class AnnotationPipeline {
         try {
             annotateJob(args, subcommand.getOptionValue("filename"), subcommand.getOptionValue("output-filename"), outputFormat, subcommand.getOptionValue("isoform-override"), subcommand.getOptionValue("replace-symbol-entrez", "true"),
                     subcommand.getOptionValue("error-report-location", ""),
-                    subcommand.getOptionValue("post-interval-size", "100"), subcommand.getOptionValue("strip-matching-bases", "all"), subcommand.hasOption("ignore-original-genomic-location"), subcommand.hasOption("add-original-genomic-location"), true);
+                    subcommand.getOptionValue("post-interval-size", "100"), subcommand.getOptionValue("strip-matching-bases", "all"), subcommand.hasOption("ignore-original-genomic-location"), subcommand.hasOption("add-original-genomic-location"), true, subcommand.hasOption("mode") && "extended".equals(subcommand.getOptionValue("mode")));
             // When you change the default value of post-interval-size, do not forget to update MutationRecordReader.postIntervalSize accordingly
             // "replace-symbol-entrez" is true by default
             // notecolumn is set to true, can reset to noteColumn parameter if have grouped arguments in the future
