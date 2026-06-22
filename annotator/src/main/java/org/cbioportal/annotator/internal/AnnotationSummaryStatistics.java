@@ -154,9 +154,8 @@ public class AnnotationSummaryStatistics {
                 failedAnnotation = Boolean.TRUE;
             } else if (isVariantSpanningNonCodingRegion(annotatedRecord) && annotatedRecord.getErrorMessage() == null) {
                 // Multi-nucleotide deletion/insertion that spans a coding/UTR boundary:
-                // VEP classifies it as Frame_Shift or In_Frame (based on the coding portion)
-                // but cannot produce HGVSc/HGVSp because the variant extends past the stop codon
-                // or start codon into the UTR
+                // Variants are classified as Frame_Shift or In_Frame (based on the coding portion)
+                // but cannot produce HGVSc/HGVSp
                 this.nullVariantClassificationRecords++;
                 this.failedAnnotatedRecordsErrorMessages.add(
                         constructErrorMessageFromRecord(record,
@@ -188,10 +187,7 @@ public class AnnotationSummaryStatistics {
         return failedAnnotation;
     }
 
-    /**
-     * Returns true if this variant is a multi-nucleotide deletion or insertion that could
-     * physically span a coding/UTR boundary (Frame_Shift or In_Frame only).
-     */
+    // Returns true if this variant is a multi-nucleotide deletion or insertion that could span a non-coding/UTR boundary (Frame_Shift or In_Frame only).
     private boolean isVariantSpanningNonCodingRegion(AnnotatedRecord annotatedRecord) {
         String varClass = annotatedRecord.getVARIANT_CLASSIFICATION();
         if (varClass == null) return false;
