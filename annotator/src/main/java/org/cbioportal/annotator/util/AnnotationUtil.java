@@ -561,6 +561,7 @@ public class AnnotationUtil {
             }
             String entry = String.join(",",
                 t.getTranscriptId() != null ? t.getTranscriptId() : "",
+                t.getRefSeq() != null ? t.getRefSeq() : "",
                 t.getHugoGeneSymbol() != null ? t.getHugoGeneSymbol() : "",
                 t.getHgvspShort() != null ? t.getHgvspShort() : "",
                 t.getHgvsc() != null ? t.getHgvsc() : "",
